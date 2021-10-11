@@ -5261,7 +5261,7 @@ input[type="button"].btn-block {
   .nav-link:hover, .nav-link:focus {
     text-decoration: none; }
   .nav-link.disabled {
-    color: #6c757d;
+    color: #666d73;
     pointer-events: none;
     cursor: default; }
 
@@ -10720,6 +10720,16 @@ code {
   background: linear-gradient(to right, #da8cff, #9a55ff) !important; }
 
 
+.bg-gradient-primary1 {
+  background: -webkit-gradient(linear, left top, right top, from(#9a55ff)), to(#da8cff) !important;
+  background: linear-gradient(to right, #9a55ff, #da8cff) !important; }
+
+
+.bg-gradient-primary2 {
+  background: -webkit-gradient(linear, left top, right top, from(rgba(154, 85, 255, 0.1))), to(rgba(218, 140, 255, 0.1)) !important;
+  background: linear-gradient(to right, rgba(154, 85, 255, 0.1), rgba(218, 140, 255, 0.1)) !important; }
+
+
 .bg-gradient-secondary {
   background: -webkit-gradient(linear, left top, right top, from(#e7ebf0), to(#868e96)) !important;
   background: linear-gradient(to right, #e7ebf0, #868e96) !important; }
@@ -13237,7 +13247,7 @@ dl {
 /* Sidebar */
 .sidebar {
   min-height: calc(100vh - 70px);
-  background: #ffffff;
+  background: #cb1111;
   font-family: "ubuntu-regular", sans-serif;
   padding: 0;
   width: 260px;
@@ -13578,8 +13588,9 @@ dl {
   flex-grow: 1; }
 
 .content-wrapper-img {
-  background: linear-gradient(rgba(168, 76, 243, 0.84), rgba(135, 20, 243, 0.76)), url("../images/dashboard/bg.jpg");
+  background: linear-gradient(rgba(168, 76, 243, 0.1), rgba(135, 20, 243, 0.1)), url("../images/dashboard/aspire.png");
   width: 100%;
+  padding: 2.75rem 2.25rem;
   height: 100%;
   -webkit-box-flex: 1;
   -ms-flex-positive: 1;
