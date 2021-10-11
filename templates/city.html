@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Purple Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../static/assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../static/assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="../static/assets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="../static/assets/images/favicon.ico" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <!-- partial:partials/_navbar.html -->
+      <nav class=" shadow navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row bg-gradient-primary">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center bg-gradient-primary1">
+          <span class="text-light display-4 font-weight-bold ">DINE BRAND</span>
+          <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../static/assets/images/logo-mini.svg" alt="logo" /></a>
+        </div>
+        <div class="nav-item ">
+          <a class="nav-link" href="/all_dataset">
+            <button class="btn btn-lg btn-outline-light btn-rounded"><i class="mdi mdi-cloud-download"></i> Download all</button>
+          </a>
+        </div>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+
+        <nav class="sidebar shadow sidebar-offcanvas bg-gradient-primary2 " id="sidebar">
+          <ul class="nav ">
+            </br>
+            <li class="nav-item ">
+              <a class="nav-link" href="/welcome">
+                <span class="menu-title ">Go to Welcome</span>
+                <i class="mdi mdi-home menu-icon "></i>
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="/index">
+                <span class="menu-title ">Dashboard</span>
+                <i class="mdi mdi-graphql menu-icon "></i>
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="/dataset">
+                <span class="menu-title ">Show Current Dataset</span>
+                <i class="mdi mdi-table-large menu-icon "></i>
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="/state">
+                <span class="menu-title ">Specific State</span>
+                <i class="mdi mdi-map menu-icon "></i>
+              </a>
+            </li>
+            <li class="nav-item  bg-gradient-primary ">
+              <a class="nav-link " href="/city">
+                <span class="menu-title text-white ">Specific City</span>
+                <i class="mdi mdi-city menu-icon text-white"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="main-panel">
+          <div class="content-wrapper-img">
+            <div class="row">
+              <div class="col-12 grid-margin ">
+                <div class="card">
+                  <div class="card-body shadow">
+                    <h4 class="text-primary">Want to filter the review by specific City.</h4>
+                    <p class="card-description"> Select the <span class="text-primary">City</span> </p>
+                    <form class="form-inline" method="POST" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="form-group">
+                      <select class="form-control mb-2 mr-sm-2" id="city_name" name="city_name" style="width: 200px">
+                      {% for x in city_list %}
+                        <option>{{x.city}}</option>
+                      {% endfor %}
+                      </select>
+                    </div>
+                      <button type="submit" class="btn btn-outline-primary btn-icon-text mb-2 mr-sm-2" style="float: right">
+                            <i class="mdi mdi-file-check btn-icon-prepend"></i> Get Reviews </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>   <!-- search by city or state -->
+            <div class="row">
+              <div class="col-12">
+                <span class="d-flex align-items-center purchase-popup shadow">
+                  <p class="display-5 text-dark">Want to get the review based on specific State</p>
+                  <a href="/state" class="btn download-button purchase-button ml-auto">
+                  <i class="mdi mdi-skip-next text-white"></i></a>
+                </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <span class="d-flex align-items-center purchase-popup shadow">
+                  <p class="display-5 text-dark">Roll back to the original Dine Brand Dataset</p>
+                  <a href="/index" class="btn download-button purchase-button bg-gradient-success ml-auto">
+                  <i class="mdi mdi-skip-next text-white"></i></a>
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="../static/assets/vendors/js/vendor.bundle.base.js"></script>
+    <script src="../static/assets/vendors/chart.js/Chart.min.js"></script>
+    <script src="../static/assets/js/off-canvas.js"></script>
+    <script src="../static/assets/js/hoverable-collapse.js"></script>
+    <script src="../static/assets/js/misc.js"></script>
+    <script src="../static/assets/js/dashboard.js"></script>
+    <script src="../static/assets/js/todolist.js"></script>
+    <script src="../static/assets/js/chart.js"></script>
+    <script src="https://github.com/chartjs/Chart.js/blob/master/docs/scripts/utils.js"></script>
+    <!-- End custom js for this page -->
+    <script>
+
+      const datapoints1 = [{{pos_count}}, {{neu_count}},{{neg_count}}]
+      const data = {
+    labels: ['Positive', 'Neutral', 'Negative'],
+    datasets: [
+      {
+        data: datapoints1,
+        backgroundColor: [
+          'rgba(75,192,192,0.8)',
+          'rgb(248,207,38,0.8)',
+          'rgba(255,99,132,0.8)',
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgb(248,207,38)',
+          'rgba(255,99,132,1)',
+        ],
+      }
+    ]
+  };
+      const config = {
+    type: 'pie',
+    data: data,
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        title: {
+          display: false,
+        }
+      }
+    },
+  };
+      let mypieChart = document.getElementById('mypieChart').getContext('2d');
+      new Chart(mypieChart, config);
+
+      const labels2 = ['Star 1', 'Star 2', 'Star 3', 'Star 4', 'Star 5'];
+      const data2 = {
+    labels: labels2,
+    datasets: [
+      {
+        label: 'Positive',
+        data: {{star_pos}},
+        backgroundColor: [
+          'rgba(75, 192, 192, 0.8)',
+          'rgba(75, 192, 192, 0.8)',
+          'rgba(75, 192, 192, 0.8)',
+          'rgba(75, 192, 192, 0.8)',
+          'rgba(75, 192, 192, 0.8)',
+        ],
+      },
+      {
+        label: 'Neutral',
+        data: {{star_neu}},
+        backgroundColor: [
+          'rgb(248,207,38, 0.8)',
+          'rgb(248,207,38, 0.8)',
+          'rgb(248,207,38, 0.8)',
+          'rgb(248,207,38, 0.8)',
+          'rgb(248,207,38, 0.8)',
+        ],
+      },
+      {
+        label: 'Negative',
+        data: {{star_neg}},
+        backgroundColor: [
+          'rgba(255,99,132, 0.8)',
+          'rgba(255,99,132, 0.8)',
+          'rgba(255,99,132, 0.8)',
+          'rgba(255,99,132, 0.8)',
+          'rgba(255,99,132, 0.8)',
+        ],
+      },
+    ]
+  };
+      const config2 = {
+    type: 'bar',
+    data: data2,
+    options: {
+      plugins: {
+        title: {
+          display: false,
+          text: 'Chart.js Bar Chart - Stacked'
+        },
+      },
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          stacked: true
+        }
+      }
+    }
+  };
+      let mypieChart2 = document.getElementById('mypieChart2').getContext('2d');
+      new Chart(mypieChart2, config2);
+
+    const data4 = {
+  labels: {{dates|safe}},
+  datasets: [
+    {
+      label: 'Positive',
+      data: {{date_pos}},
+      borderColor: 'rgba(75,192,192,1)',
+      backgroundColor:
+        'rgba(50,238,238,0.2)',
+    },
+    {
+      label: 'Neutral',
+      data: {{date_neu}},
+      borderColor: 'rgba(248,207,38,1)',
+      backgroundColor:
+        'rgba(248,207,38,0.2)',
+    },
+    {
+      label: 'Negative',
+      data: {{date_neg}},
+      borderColor: 'rgba(255,99,132,1)',
+      backgroundColor:
+        'rgba(255,99,132,0.2)',
+    },
+  ]
+  };
+    const config3 = {
+  type: 'line',
+  data: data4,
+  options: {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Chart.js Line Chart - Cubic interpolation mode'
+      },
+    },
+    interaction: {
+      intersect: false,
+    },
+    scales: {
+      x: {
+        display: true,
+        title: {
+          display: true
+        }
+      },
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Value'
+        },
+        suggestedMin: 0,
+        suggestedMax: 200
+      }
+    }
+  },
+  };
+    let distchart = document.getElementById('distchart').getContext('2d');
+    new Chart(distchart, config3);
+
+    const pos_freq_data = {{pos_freq_count|safe}};
+    const labels_freq = {{pos_freq_word|safe}};
+    const data_freq = {
+    labels: labels_freq,
+    datasets: [
+      {
+        label: 'Most Impacting Positive Keywords',
+        data: pos_freq_data,
+        backgroundColor: [
+          'rgb(75,245,84)',
+          'rgb(42,210,210)',
+          'rgb(190,98,88)',
+          'rgb(210,187,40)',
+          'rgb(211,32,181)',
+          'rgb(234,19,28)',
+          'rgb(255,106,0)',
+        ],
+      },
+    ]
+  };
+    const config_freq = {
+    type: 'bar',
+    data: data_freq,
+    options: {
+      plugins: {
+        title: {
+          display: false,
+          text: 'Chart.js Bar Chart - Stacked'
+        },
+      },
+      legend: {
+        labels: {
+          position: 'bottom',
+        },
+      },
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          stacked: true
+        }
+      }
+    }
+  };
+    let pos_freq = document.getElementById('pos_freq').getContext('2d');
+    new Chart(pos_freq, config_freq);
+
+
+    const neg_freq_data = {{neg_freq_count|safe}};
+    const labels_freq_neg = {{neg_freq_word|safe}};
+    const data_freq_neg = {
+    labels: labels_freq_neg,
+    datasets: [
+      {
+        label: 'Most Impacting Negative Keywords',
+        data: neg_freq_data,
+        backgroundColor: [
+          'rgb(234,19,28)',
+          'rgb(75,245,84)',
+          'rgb(42,210,210)',
+          'rgb(190,98,88)',
+          'rgb(210,187,40)',
+          'rgb(211,32,181)',
+          'rgb(255,106,0)',
+        ],
+      },
+    ]
+  };
+    const config_freq_neg = {
+    type: 'bar',
+    data: data_freq_neg,
+    options: {
+      plugins: {
+        legend:{
+          backgroundColor:'rgb(234,19,28)',
+        }
+      },
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          stacked: true
+        }
+      }
+    }
+  };
+    let neg_freq = document.getElementById('neg_freq').getContext('2d');
+    new Chart(neg_freq, config_freq_neg);
+
+  </script>
+  </body>
+</html>
